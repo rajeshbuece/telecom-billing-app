@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: network-usage-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: network-usage-service
+  template:
+    metadata:
+      labels:
+        app: network-usage-service
+    spec:
+      containers:
+        - name: network-usage-service
+          image: dockerhub-user/telecom-network-usage-service:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: network-usage-service
+spec:
+  type: ClusterIP
+  selector:
+    app: network-usage-service
+  ports:
+    - port: 5000
